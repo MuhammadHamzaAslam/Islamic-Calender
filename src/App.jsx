@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Chips from "./Components/chips";
 import AddPost from "./Pages/addpost";
 import DisplayPosts from "./Components/displayComponents";
+import { db } from "./config/firebase";
+import { collection , query , where , onSnapshot } from "firebase/firestore";
+import { useParams  } from "react-router-dom";
+
+
 
 function App() {
   const [monthName, setMonthName] = useState([
@@ -21,7 +26,29 @@ function App() {
   ]);
 
   const [chosenCategory, setChosenCategory] = useState("Muharram");
+  const [posts, setPosts] = useState([]);
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      console.log("Fetching posts...");
+      const collectionRef = collection(db, "uruses");
+      const q = query(
+        collectionRef,
+        where("month", "==", chosenCategory),
+      );
+
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        console.log("Query snapshot:", querySnapshot);
+        const postsData = querySnapshot.docs.map((doc) => doc.data());
+        console.log("Posts data:", postsData);
+        setPosts(postsData);
+      });
+
+      return () => unsubscribe();
+    };
+
+    fetchPosts();
+  }, [chosenCategory]);
   return (
     <div className=" bg-gray-100 p-4">
       {/* Month Selection Section */}
@@ -37,13 +64,13 @@ function App() {
       </div>
 
       {/* Days Grid Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 lg:grid-cols-4 gap-4">
         {Array.from({ length: 30 }, (_, idx) => (
           <div
             key={idx +1}
-            className="px-10 py-10  relative border border-gray-300 bg-white text-center rounded-xl cursor-pointer shadow-xl hover:shadow-lg transition duration-300 ease-in-out"
+            className="px-1 pb-14  pt-7  relative border border-gray-300 bg-white text-center rounded-xl cursor-pointer shadow-xl hover:shadow-lg transition duration-300 ease-in-out"
           >
-            <div className="text-gray-700 text-xl font-semibold mb-2">
+            <div className="text-gray-700 text-xl text-end font-semibold mb-2 pr-3">
                {idx + 1}
             </div>
             <div className="absolute bottom-2 left-2">
@@ -51,7 +78,7 @@ function App() {
                 to={`/view-posts/${chosenCategory}/${idx +1}`}
                 className="text-blue-500 hover:underline font-semibold text-[16px] relative"
               >
-                 View  <span className="bg-blue-500 text-white text-sm absolute left-7 bottom-3 rounded-full w-[20px] h-[20px] text-center">0</span>
+                 View  <span className="bg-blue-500 text-white text-sm absolute left-7 bottom-[10px] rounded-full w-[20px] h-[20px] text-center">0</span>
               </Link>
             </div>
             <div className="absolute bottom-2 right-2">
@@ -62,6 +89,18 @@ function App() {
                 +
               </Link>
             </div>
+
+
+          {
+            posts.length > 0 ? posts.map((data , index) => (
+              data.index == idx + 1 ? <h1> {data.name} </h1> :
+                 ""
+                  
+            )) : ""
+          }
+
+
+
           </div>
         ))}
       </div>

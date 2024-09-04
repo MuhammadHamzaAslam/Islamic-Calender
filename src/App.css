@@ -38,7 +38,7 @@
   color: #555;
 }
 
-.input-group input[type="text"],
+.input-group input[type="text"] , input[type="url"],
 .input-group textarea {
   width: 90%;
   padding: 10px;

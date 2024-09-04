@@ -145,7 +145,7 @@ function AddPost({}) {
           <div className="input-group">
             <label htmlFor="location">Location</label>
             <input
-              type="text"
+              type="url"
               id="location"
               placeholder="Enter Location"
               value={formData.location}
