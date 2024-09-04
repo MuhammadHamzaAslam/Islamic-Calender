@@ -37,21 +37,21 @@ function App() {
       </div>
 
       {/* Days Grid Section */}
-      <div className="flex justify-center items-center flex-wrap gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 lg:grid-cols-5 gap-4">
         {Array.from({ length: 30 }, (_, idx) => (
           <div
             key={idx +1}
             className="px-10 py-10  relative border border-gray-300 bg-white text-center rounded-xl cursor-pointer shadow-xl hover:shadow-lg transition duration-300 ease-in-out"
           >
             <div className="text-gray-700 text-xl font-semibold mb-2">
-              {chosenCategory} {idx + 1}
+               {idx + 1}
             </div>
             <div className="absolute bottom-2 left-2">
               <Link
                 to={`/view-posts/${chosenCategory}/${idx +1}`}
-                className="text-blue-500 hover:underline font-semibold text-[16px]"
+                className="text-blue-500 hover:underline font-semibold text-[16px] relative"
               >
-                View
+                 View  <span className="bg-blue-500 text-white text-sm absolute left-7 bottom-3 rounded-full w-[20px] h-[20px] text-center">0</span>
               </Link>
             </div>
             <div className="absolute bottom-2 right-2">
