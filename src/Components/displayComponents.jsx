@@ -34,7 +34,7 @@ function DisplayPosts() {
   console.log("Posts:", posts);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
+    <div className="min-h-screen bg-gray-100 p-4 flex flex-row flex-wrap mx-2 my-3  justify-center">
       {posts.length > 0 ? (
         posts.map((post, idx) => (
           <div

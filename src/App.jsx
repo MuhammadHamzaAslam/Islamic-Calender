@@ -23,9 +23,9 @@ function App() {
   const [chosenCategory, setChosenCategory] = useState("Muharram");
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className=" bg-gray-100 p-4">
       {/* Month Selection Section */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-12 gap-2 mb-6">
+      <div className="flex justify-center items-center flex-wrap rounded-xl shadow-lg mb-5">
         {monthName.map((month, index) => (
           <Chips
             key={index}
@@ -37,19 +37,19 @@ function App() {
       </div>
 
       {/* Days Grid Section */}
-      <div className=" flex justify-center items-center flex-wrap gap-4">
+      <div className="flex justify-center items-center flex-wrap gap-4">
         {Array.from({ length: 30 }, (_, idx) => (
           <div
             key={idx +1}
-            className="px-4 py-5 relative border border-gray-300 bg-white p-4 text-center rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out"
+            className="px-10 py-10  relative border border-gray-300 bg-white text-center rounded-xl cursor-pointer shadow-xl hover:shadow-lg transition duration-300 ease-in-out"
           >
-            <div className="text-gray-700 font-semibold mb-2">
+            <div className="text-gray-700 text-xl font-semibold mb-2">
               {chosenCategory} {idx + 1}
             </div>
             <div className="absolute bottom-2 left-2">
               <Link
                 to={`/view-posts/${chosenCategory}/${idx +1}`}
-                className="text-blue-500 hover:underline"
+                className="text-blue-500 hover:underline font-semibold text-[16px]"
               >
                 View
               </Link>
@@ -57,7 +57,7 @@ function App() {
             <div className="absolute bottom-2 right-2">
               <Link
                 to={`/add-post/${chosenCategory}/${idx +1}`}
-                className="text-green-500 hover:underline"
+                className="text-green-500 hover:underline text-[24px] font-bold"
               >
                 +
               </Link>
@@ -67,10 +67,10 @@ function App() {
       </div>
 
       {/* Routes */}
-      <Routes>
+      {/* <Routes>
         <Route path="/add-post/:month/:index" element={<AddPost />} />
         <Route path="/view-posts/:month/:index" element={<DisplayPosts />} />
-      </Routes>
+      </Routes> */}
     </div>
   );
 }

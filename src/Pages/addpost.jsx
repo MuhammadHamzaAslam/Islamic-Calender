@@ -45,7 +45,11 @@ function AddPost({}) {
       !formData.description ||
       !formData.picture
     ) {
-      alert("Please fill all fields and upload a picture.");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please fill all fields and upload a picture!",
+      });
       return;
     }
 
@@ -80,7 +84,7 @@ function AddPost({}) {
             description: formData.description,
             pictureURL: downloadURL,
             month: month,
-            index: Number(index), // Ensure index is a number
+            index: Number(index), 
             createdAt: new Date(),
           });
 
