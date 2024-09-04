@@ -15,7 +15,7 @@ function DisplayPosts() {
       const q = query(
         collectionRef,
         where("month", "==", month),
-        where("index", "==", parseInt(index, 10)) // Convert index to an integer
+        where("index", "==", parseInt(index, 10)) 
       );
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -34,12 +34,12 @@ function DisplayPosts() {
   console.log("Posts:", posts);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 flex flex-row flex-wrap mx-2 my-3  justify-center">
+    <div className="h-[100vh] bg-gray-100 p-4 flex flex-row flex-wrap justify-center">
       {posts.length > 0 ? (
         posts.map((post, idx) => (
           <div
             key={idx}
-            className="bg-white rounded-lg shadow-md p-6 mb-6 w-full max-w-xl"
+            className="bg-white rounded-lg shadow-md mx-4 my-2 p-6 mb-6 w-full max-w-xl"
           >
             <h3 className="text-2xl font-bold text-gray-800 mb-2">
               {post.name} {post.fatherName}
