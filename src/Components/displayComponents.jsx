@@ -15,7 +15,7 @@ function DisplayPosts() {
       const q = query(
         collectionRef,
         where("month", "==", month),
-        where("index", "==", parseInt(index, 10)) 
+        where("index", "==", parseInt(index, 10))
       );
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -45,16 +45,32 @@ function DisplayPosts() {
               {post.name} {post.fatherName}
             </h3>
             <p className="text-gray-600 mb-2">{post.description}</p>
-            <p className="text-gray-500 mb-4">{post.location}</p>
+            <a
+              href="https://maps.app.goo.gl/vBepbKdLvhk9H5tUA"
+              className="hover:text-blue-500 text-gray-500 mb-4"
+            >
+              {post.location}
+            </a>
+            <p>
+              <span className="font-bold">Country:</span> {post.country}
+            </p>
+            <p>
+              <span className="font-bold">State:</span> {post.state}
+            </p>
+            <p>
+              <span className="font-bold">City:</span> {post.city}
+            </p>
             <img
               src={post.pictureURL}
               alt={post.name}
-              className="w-full h-64 object-cover rounded-lg"
+              className="w-full h-64  rounded-lg mt-2"
             />
           </div>
         ))
       ) : (
-        <p className="text-gray-700 text-xl font-semibold">No posts available</p>
+        <p className="text-gray-700 text-xl font-semibold">
+          No posts available
+        </p>
       )}
     </div>
   );

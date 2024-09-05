@@ -25,7 +25,6 @@ function App() {
 
   const [chosenCategory, setChosenCategory] = useState("Muharram");
   const [posts, setPosts] = useState([]);
-
   useEffect(() => {
     const fetchPosts = async () => {
       console.log("Fetching posts...");
@@ -44,6 +43,12 @@ function App() {
 
     fetchPosts();
   }, [chosenCategory]);
+
+
+  // const getPostCountForDay = (day) => {
+  //   return posts.filter((post) => post.index === day).length;
+  // };
+
   return (
     <div className=" bg-gray-100 p-4">
       {/* Month Selection Section */}
@@ -74,6 +79,16 @@ function App() {
                 className="text-blue-500 hover:underline font-semibold text-[16px] relative"
               >
                 View{" "}
+
+
+                {/* {getPostCountForDay(idx + 1) > 0 && (
+                  <span className="bg-blue-500 text-white text-sm absolute left-7 bottom-[10px] rounded-full w-[20px] h-[20px] text-center">
+                    {getPostCountForDay(idx + 1)}
+                  </span>
+                )} */}
+
+
+
                 {/* <span className="bg-blue-500 text-white text-sm absolute left-7 bottom-[10px] rounded-full w-[20px] h-[20px] text-center">0</span> */}
               </Link>
             </div>
