@@ -3,8 +3,6 @@ import { Routes, Route, Link } from "react-router-dom";
 import Chips from "./Components/chips";
 import AddPost from "./Pages/addpost";
 import DisplayPosts from "./Components/displayComponents";
-import { db } from "./config/firebase";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 
 function App() {
@@ -25,29 +23,7 @@ function App() {
 
   const [chosenCategory, setChosenCategory] = useState("Muharram");
   const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      console.log("Fetching posts...");
-      const collectionRef = collection(db, "uruses");
-      const q = query(collectionRef, where("month", "==", chosenCategory));
-
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        console.log("Query snapshot:", querySnapshot);
-        const postsData = querySnapshot.docs.map((doc) => doc.data());
-        console.log("Posts data:", postsData);
-        setPosts(postsData);
-      });
-
-      return () => unsubscribe();
-    };
-
-    fetchPosts();
-  }, [chosenCategory]);
-
-
-  // const getPostCountForDay = (day) => {
-  //   return posts.filter((post) => post.index === day).length;
-  // };
+  
 
   return (
     <div className=" bg-gray-100 p-4">
@@ -79,16 +55,11 @@ function App() {
                 className="text-blue-500 hover:underline font-semibold text-[16px] relative"
               >
                 View{" "}
-
-
                 {/* {getPostCountForDay(idx + 1) > 0 && (
                   <span className="bg-blue-500 text-white text-sm absolute left-7 bottom-[10px] rounded-full w-[20px] h-[20px] text-center">
                     {getPostCountForDay(idx + 1)}
                   </span>
                 )} */}
-
-
-
                 {/* <span className="bg-blue-500 text-white text-sm absolute left-7 bottom-[10px] rounded-full w-[20px] h-[20px] text-center">0</span> */}
               </Link>
             </div>
