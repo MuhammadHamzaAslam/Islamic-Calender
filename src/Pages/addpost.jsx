@@ -272,6 +272,11 @@ function AddPost() {
     }
   };
 
+
+
+
+  
+
   return (
     <div>
       <section id="mainSection" className="m-auto">
@@ -429,7 +434,7 @@ function AddPost() {
                 Select A Country
               </option>
               {allCountries.map((country) => (
-                <option key={country.iso2} value={country.iso2}>
+                <option key={country.iso2} value={country.name}>
                   {country.name}
                 </option>
               ))}

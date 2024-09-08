@@ -113,9 +113,25 @@ function AllPosts() {
   } ,[])
 
 
- console.log(posts);
- 
+  let filter = posts.filter((post) => {
+    const matchesMonth = post.wisaal_date_islamic.month === chosenCategory;
+
+    if (selectedCountry === "ALL_COUNTRIES") {
+      return matchesMonth;
+    }
+
+    const matchesCountry = post.country === selectedCountry;
+    return matchesMonth && matchesCountry;
+  });
+
+
+  console.log(filter);
   
+  // let filter = posts.filter((post , index) => post.wisaal_date_islamic.month == chosenCategory && selectedCountry == 'ALL_COUNTRIES' || selectedCountry == post.country)
+
+  // console.log(filter , "filter");
+  
+
 
   return (
     <>
@@ -146,7 +162,7 @@ function AllPosts() {
             onChange={handleCountryChange}
             className="border border-blue-500 h-[40px] px-4 outline outline-blue-200 w-full"
           >
-            <option value="ALL_COUNTRIES">All Countries</option> {/* Default "All Countries" option */}
+            <option value="ALL_COUNTRIES">All Countries</option> 
             {allCountries.map((country) => (
               <option key={country.iso2} value={country.iso2}>
                 {country.name}
@@ -185,28 +201,28 @@ function AllPosts() {
           <table className="min-w-full bg-white border border-gray-200">
             <thead>
               <tr className="bg-blue-500 text-white">
-                <th className="py-3 px-4 text-left">Name</th>
-                <th className="py-3 px-4 text-left">Father Name</th>
-                <th className="py-3 px-4 text-left">Date Of Birth</th>
-                <th className="py-3 px-4 text-left">Date Of Wissal</th>
-                <th className="py-3 px-4 text-left">Country</th>
-                <th className="py-3 px-4 text-left">City</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">Name</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">Father Name</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">Date Of Birth</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">Date Of Wissal</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">Country</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">City</th>
               </tr>
             </thead>
             <tbody>
-            {posts.map((post, index) => (
+            {filter.map((post, index) => (
               <tr
                 key={index}
                 className={`border-b border-gray-200 hover:bg-gray-100 ${
                   index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
                 } w-full`}
               >
-                <td className="py-3 px-4 whitespace-normal">{post.name}</td>
-                <td className="py-3 px-4 whitespace-normal">{post.father_name}</td>
-                <td className="py-3 px-4 whitespace-normal">{post.birth_date_islamic.date} - {post.birth_date_islamic.month}</td>
-                <td className="py-3 px-4 whitespace-normal">{post.wisaal_date_islamic.date} - {post.wisaal_date_islamic.month}</td>
-                <td className="py-3 px-4 whitespace-normal">{post.country}</td>
-                <td className="py-3 px-4 whitespace-normal">{post.city}</td>
+                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  xl:w-[280px] lg:w-[23%] md:w-[23%] sm:w-[28%]">{post.name}</td>
+                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[23%] md:w-[24%] sm:w-[28%]">{post.father_name}</td>
+                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[19%] md:w-[19%] sm:w-[22%]">{post.birth_date_islamic.date} - {post.birth_date_islamic.month}</td>
+                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[19%] md:w-[19%] sm:w-[22%]">{post.wisaal_date_islamic.date} - {post.wisaal_date_islamic.month}</td>
+                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[15%] md:w-[15%] sm:w-[15%]">{post.country}</td>
+                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[15%] md:w-[15%] sm:w-[15%]">{post.city}</td>
               </tr>
             ))}
           </tbody>
