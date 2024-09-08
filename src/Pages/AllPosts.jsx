@@ -125,13 +125,8 @@ function AllPosts() {
   });
 
 
-  console.log(filter);
   
-  // let filter = posts.filter((post , index) => post.wisaal_date_islamic.month == chosenCategory && selectedCountry == 'ALL_COUNTRIES' || selectedCountry == post.country)
-
-  // console.log(filter , "filter");
   
-
 
   return (
     <>
@@ -196,17 +191,16 @@ function AllPosts() {
 
 
       <div className="p-4">
-        {/* Responsive wrapper with overflow-x-auto for horizontal scroll */}
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
             <thead>
               <tr className="bg-blue-500 text-white">
-                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">Name</th>
-                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">Father Name</th>
-                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">Date Of Birth</th>
-                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">Date Of Wissal</th>
-                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">Country</th>
-                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  ">City</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]">Name</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]">Father Name</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]">Date Of Birth</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]">Date Of Wissal</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]">Country</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]">City</th>
               </tr>
             </thead>
             <tbody>

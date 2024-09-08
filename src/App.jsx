@@ -54,7 +54,7 @@ function App() {
       </div>
 
       {/* Days Grid Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 lg:grid-cols-4 gap-4">
+      <Link to={'/allposts'} className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 lg:grid-cols-4 gap-4">
         {Array.from({ length: 30 }, (_, idx) => (
           <div
             key={idx + 1}
@@ -97,7 +97,7 @@ function App() {
 
           </div>
         ))}
-      </div>
+      </Link>
     </div>
   );
 }
