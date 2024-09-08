@@ -23,6 +23,20 @@ function App() {
 
   const [chosenCategory, setChosenCategory] = useState("Muharram");
   const [posts, setPosts] = useState([]);
+
+
+  useEffect(() => {
+    let fetchData = () => {
+      fetch('https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/')
+        .then((response) => response.json())
+        .then((data) => setPosts(data.data.aaraasList))
+        .catch((e) => console.error(e)
+        )
+    }
+
+    fetchData()
+  }, [])
+
   
 
   return (
@@ -72,11 +86,15 @@ function App() {
               </Link>
             </div>
 
-            {posts.length > 0
-              ? posts.map((data, index) =>
-                  data.index == idx + 1 ? <h1> {data.name} </h1> : ""
-                )
-              : ""}
+
+                  {
+                      posts.length > 0
+                       ? 
+                       posts.filter((post) => post.wisaal_date_islamic.month == chosenCategory && post.wisaal_date_islamic.date == idx +1)
+                      .map((filteredPost , index) => <p> {filteredPost.name} </p>)
+                      : ''
+                  }
+
           </div>
         ))}
       </div>
