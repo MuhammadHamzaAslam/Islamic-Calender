@@ -36,16 +36,28 @@ function App() {
         .catch((e) => console.error(e));
     };
 
-    fetchData();
+    fetchData(); 
   }, []);
 
 
+  
+  
   const togglePopup = (index = null) => {
     setPopupIndex(index);
     setOpenPopUp((prev) => !prev);
   };
+  
+  
+  useEffect(() => {
+    let fetchData = () => {
+      fetch('https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/')
+        .then((response) => response.json())
+        .then((data) => setPosts(data.data.aaraasList))
+        .catch((e) => console.error(e));
+    };
 
-
+    fetchData();
+  }, [openPopUp]);
 
 
   const apiKey = "d3lHSzlwMm5oWlhiZ3RuM1hkTWZzbm1SNWRzMTdEV3k4d085R2YzUw==";
@@ -178,13 +190,6 @@ function App() {
         </div>
       )}
 
-      {/* {openPopUp && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full overflow-y-auto max-h-[90vh]">
-            <AddPost closePopup={togglePopup} allCountries={allCountries} allCities={allCities} /> 
-          </div>
-        </div>
-      )} */}
     </div>
     </>
   );

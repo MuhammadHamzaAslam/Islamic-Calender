@@ -74,11 +74,9 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
 
 
   useEffect(() => {
-    console.log('country change huwae ha...');
     
     if (selectedCountry) {
       setSelectedCountry(selectedCountry)
-      console.log(selectedCountry , "yae if ki condition ha");
       setCities([])
       const fetchCities = async () => {
         const headers = { "X-CSCAPI-KEY": apiKey };
@@ -89,10 +87,10 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
           { method: "GET", headers }  
         );
         const result = await response.json();
-        console.log(result , "yae result agaya");
+       
         
         setCities(result);
-        console.log('cities add hogaye');
+    
         
       } catch (error) {
         console.error("Error fetching countries:", error);
@@ -131,7 +129,7 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
     setLoading(true); 
 
     try {
-      console.log("Preparing data to send...");
+    
 
      
       const obj = {
@@ -158,24 +156,24 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
         ],
       };
 
-      console.log("Request data:", obj);
+    
 
     
-      const headers = {
-        "Content-Type": "application/json",
-      };
+      // const headers = {
+      //   "Content-Type": "application/json",
+      // };
 
-      // Make the API request
-      const response = await axios.post(
-        "https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/",
-        obj,
-        { headers }
-      );
+      // // Make the API request
+      // const response = await axios.post(
+      //   "https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/",
+      //   obj,
+      //   { headers }
+      // );
 
-      console.log("Success:", response.data);
+   
 
   
-      setImageInputs([""]);
+      // setImageInputs([""]);
 
     
       Swal.fire({
@@ -184,8 +182,8 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
         icon: "success",
       });
 
-      // Optionally navigate away
-      // navigate("/");
+      navigate("/");
+      closePopup()
     } catch (error) {
       console.error("Error:", error.response?.data || error.message);
 
@@ -195,6 +193,7 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
         title: "Oops...",
         text: error.response?.data?.msg || "Failed To Add Urus!",
       });
+      closePopup()
     } finally {
       setLoading(false); // Hide loading state
     }
@@ -321,7 +320,7 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
 
 
               <input
-                type="text"
+                type="number"
                 placeholder="Enter Birth Year"
                 required
                 value={Birthyear}
@@ -370,7 +369,7 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
 
 
               <input
-                type="text"
+                type="number"
                 placeholder="Enter Death Year"
                 required
                 value={Deathyear}
@@ -427,7 +426,7 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
             </div>
 
             {/* Submit Button */}
-            <button onClick={closePopup} type="submit" disabled={loading} className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-800">
+            <button  type="submit" disabled={loading} className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-800">
               {loading ? "Submitting..." : "Submit"}
             </button>
           </form>

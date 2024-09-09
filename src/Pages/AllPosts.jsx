@@ -32,7 +32,6 @@ function AllPosts() {
   const [allCities, setAllCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("All Cities"); // Default to "All Cities"
 
-  console.log(allCountries);
 
 
   // Fetch countries when the component mounts
@@ -63,11 +62,9 @@ function AllPosts() {
   }, []);
 
   useEffect(() => {
-    console.log('country change huwae ha...');
 
     if (selectedCountry && selectedCountry != 'All Countries') {
       setSelectedCountry(selectedCountry)
-      console.log(selectedCountry, "yae if ki condition ha");
       setAllCities([])
       const fetchCities = async () => {
         const headers = { "X-CSCAPI-KEY": apiKey };
@@ -78,10 +75,10 @@ function AllPosts() {
             { method: "GET", headers }
           );
           const result = await response.json();
-          console.log(result, "yae result agaya");
+          
 
           setAllCities(result);
-          console.log('cities add hogaye');
+          
 
         } catch (error) {
           console.error("Error fetching countries:", error);
@@ -115,9 +112,6 @@ function AllPosts() {
       return matchesMonth;
     }
 
-    console.log(post.country == selectedCountry, "condition");
-    console.log(post.country, "post");
-    console.log(selectedCountry, "selected country");
 
 
     const matchesCountry = post.country == selectedCountry;
@@ -138,8 +132,8 @@ function AllPosts() {
 
 
 
-
-      <div className="flex justify-center items-center flex-wrap gap-10 mt-10">
+ 
+      <div className="mt-10 grid lg:grid-cols-3 lg:gap-3 xl:grid-cols-3 xl:gap-9 px-9 md:grid-cols-3 md:gap-3 sm:grid-cols-3 sm:gap-2">
         <div className="input-group">
           <label htmlFor="month-select">Select Month</label>
           <select
