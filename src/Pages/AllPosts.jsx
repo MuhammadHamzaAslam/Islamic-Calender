@@ -27,9 +27,12 @@ function AllPosts() {
 
   const apiKey = "d3lHSzlwMm5oWlhiZ3RuM1hkTWZzbm1SNWRzMTdEV3k4d085R2YzUw==";
   const [allCountries, setAllCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("ALL_COUNTRIES"); // Default to "All Countries"
+  const [selectedCountry, setSelectedCountry] = useState("All Countries"); // Default to "All Countries"
   const [allCities, setAllCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState("ALL_CITIES"); // Default to "All Cities"
+  const [selectedCity, setSelectedCity] = useState("All Cities"); // Default to "All Cities"
+
+  console.log(allCountries);
+  
 
   // Fetch countries when the component mounts
   useEffect(() => {
@@ -58,48 +61,39 @@ function AllPosts() {
     fetchCountries();
   }, []);
 
-  // Fetch cities based on the selected country
   useEffect(() => {
-    if (selectedCountry && selectedCountry !== "ALL_COUNTRIES") {
-      const fetchCity = async () => {
-        const headers = new Headers();
-        headers.append("X-CSCAPI-KEY", apiKey);
+    console.log('country change huwae ha...');
+    
+    if (selectedCountry && selectedCountry != 'All Countries') {
+      setSelectedCountry(selectedCountry)
+      console.log(selectedCountry , "yae if ki condition ha");
+      setAllCities([])
+      const fetchCities = async () => {
+        const headers = { "X-CSCAPI-KEY": apiKey };
+        
+      try {
+        const response = await fetch(
+          `https://api.countrystatecity.in/v1/countries/${selectedCountry}/cities`,
+          { method: "GET", headers }  
+        );
+        const result = await response.json();
+        console.log(result , "yae result agaya");
+        
+        setAllCities(result);
+        console.log('cities add hogaye');
+        
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+    
+    fetchCities();
+  }else{
 
-        const requestOptions = {
-          method: "GET",
-          headers: headers,
-          redirect: "follow",
-        };
+  }
+},[selectedCountry]);
 
-        try {
-          const response = await fetch(
-            `https://api.countrystatecity.in/v1/countries/${selectedCountry}/cities`,
-            requestOptions
-          );
-          const result = await response.json();
-          setAllCities(result);
-        } catch (error) {
-          console.error("Error fetching cities:", error);
-        }
-      };
-
-      fetchCity();
-    } else {
-      // Reset cities to "All Cities" if "All Countries" is selected
-      setAllCities([]);
-      setSelectedCity("ALL_CITIES");
-    }
-  }, [selectedCountry]);
-
-  const handleCountryChange = (event) => {
-    const newCountry = event.target.value;
-    setSelectedCountry(newCountry);
-    setSelectedCity("ALL_CITIES"); // Reset city to default when country changes
-  };
-
-  const handleCityChange = (event) => {
-    setSelectedCity(event.target.value);
-  };
+ 
 
 
   useEffect(() => {
@@ -116,15 +110,22 @@ function AllPosts() {
   let filter = posts.filter((post) => {
     const matchesMonth = post.wisaal_date_islamic.month === chosenCategory;
 
-    if (selectedCountry === "ALL_COUNTRIES") {
+    if (selectedCountry === "All Countries") {
       return matchesMonth;
     }
 
-    const matchesCountry = post.country === selectedCountry;
+    console.log(post.country == selectedCountry , "condition");
+    console.log(post.country , "post");
+    console.log(selectedCountry , "selected country");
+    
+    
+    const matchesCountry = post.country == selectedCountry;
     return matchesMonth && matchesCountry;
   });
 
 
+
+  
   
   
 
@@ -154,10 +155,10 @@ function AllPosts() {
           <select
             id="country-select"
             value={selectedCountry}
-            onChange={handleCountryChange}
+            onChange={(event) => setSelectedCountry(event.target.value)}
             className="border border-blue-500 h-[40px] px-4 outline outline-blue-200 w-full"
           >
-            <option value="ALL_COUNTRIES">All Countries</option> 
+            <option value="All Countries">All Countries</option> 
             {allCountries.map((country) => (
               <option key={country.iso2} value={country.iso2}>
                 {country.name}
@@ -170,7 +171,7 @@ function AllPosts() {
           <label htmlFor="city-select">Select City</label>
           <select
             id="city-select"
-            onChange={handleCityChange}
+            onChange={(event) => setSelectedCity(event.target.value)}
             value={selectedCity}
             className="border border-blue-500 h-[40px] px-4 outline outline-blue-200 w-full"
             required
