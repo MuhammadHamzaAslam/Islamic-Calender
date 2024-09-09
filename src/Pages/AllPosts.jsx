@@ -1,10 +1,11 @@
 import React from "react";
 import Chips from "../Components/chips";
 import { useState, useEffect } from "react";
+import Header from "../Components/Header";
 function AllPosts() {
 
   const [chosenCategory, setChosenCategory] = useState("Muharram");
-  let [posts , SetPosts] = useState([]);
+  let [posts, SetPosts] = useState([]);
 
 
 
@@ -32,7 +33,7 @@ function AllPosts() {
   const [selectedCity, setSelectedCity] = useState("All Cities"); // Default to "All Cities"
 
   console.log(allCountries);
-  
+
 
   // Fetch countries when the component mounts
   useEffect(() => {
@@ -63,48 +64,48 @@ function AllPosts() {
 
   useEffect(() => {
     console.log('country change huwae ha...');
-    
+
     if (selectedCountry && selectedCountry != 'All Countries') {
       setSelectedCountry(selectedCountry)
-      console.log(selectedCountry , "yae if ki condition ha");
+      console.log(selectedCountry, "yae if ki condition ha");
       setAllCities([])
       const fetchCities = async () => {
         const headers = { "X-CSCAPI-KEY": apiKey };
-        
-      try {
-        const response = await fetch(
-          `https://api.countrystatecity.in/v1/countries/${selectedCountry}/cities`,
-          { method: "GET", headers }  
-        );
-        const result = await response.json();
-        console.log(result , "yae result agaya");
-        
-        setAllCities(result);
-        console.log('cities add hogaye');
-        
-      } catch (error) {
-        console.error("Error fetching countries:", error);
-      }
-    };
-    
-    fetchCities();
-  }else{
 
-  }
-},[selectedCountry]);
+        try {
+          const response = await fetch(
+            `https://api.countrystatecity.in/v1/countries/${selectedCountry}/cities`,
+            { method: "GET", headers }
+          );
+          const result = await response.json();
+          console.log(result, "yae result agaya");
 
- 
+          setAllCities(result);
+          console.log('cities add hogaye');
+
+        } catch (error) {
+          console.error("Error fetching countries:", error);
+        }
+      };
+
+      fetchCities();
+    } else {
+
+    }
+  }, [selectedCountry]);
+
+
 
 
   useEffect(() => {
-      let fetchData = () => {
-          fetch("https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/")
-          .then((response) => response.json())
-          .then((data) => SetPosts(data.data.aaraasList))
-      }
+    let fetchData = () => {
+      fetch("https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/")
+        .then((response) => response.json())
+        .then((data) => SetPosts(data.data.aaraasList))
+    }
 
-      fetchData()
-  } ,[])
+    fetchData()
+  }, [])
 
 
   let filter = posts.filter((post) => {
@@ -114,42 +115,46 @@ function AllPosts() {
       return matchesMonth;
     }
 
-    console.log(post.country == selectedCountry , "condition");
-    console.log(post.country , "post");
-    console.log(selectedCountry , "selected country");
-    
-    
+    console.log(post.country == selectedCountry, "condition");
+    console.log(post.country, "post");
+    console.log(selectedCountry, "selected country");
+
+
     const matchesCountry = post.country == selectedCountry;
     return matchesMonth && matchesCountry;
   });
 
 
 
-  
-  
-  
+
+
+
 
   return (
     <>
 
-      {/* chips started  */}
-      <div className="flex justify-center items-center flex-wrap rounded-xl shadow-lg mb-5">
-        {monthName.map((month, index) => (
-          <Chips
-            key={index}
-            title={month}
-            onclick={() => setChosenCategory(month)}
-            isSelected={month === chosenCategory}
-          />
-        ))}
-      </div>
 
-
-      {/* chips ended  */}
+      <Header text='Go To HomePage' path={'/'} />
 
 
 
-      <div className="flex justify-center items-center flex-wrap gap-10">
+
+      <div className="flex justify-center items-center flex-wrap gap-10 mt-10">
+        <div className="input-group">
+          <label htmlFor="month-select">Select Month</label>
+          <select
+            id="month-select"
+            className="border border-blue-500 h-[40px] px-4 outline outline-blue-200 w-full"
+            value={chosenCategory}
+            onChange={(event) => setChosenCategory(event.target.value)}
+            >
+            {
+              monthName.map((month, index) => (
+                <option value={month} key={index} className="text-black">{month}</option>
+              ))
+            }
+          </select>
+        </div>
         <div className="input-group">
           <label htmlFor="country-select">Select Country</label>
           <select
@@ -158,7 +163,7 @@ function AllPosts() {
             onChange={(event) => setSelectedCountry(event.target.value)}
             className="border border-blue-500 h-[40px] px-4 outline outline-blue-200 w-full"
           >
-            <option value="All Countries">All Countries</option> 
+            <option value="All Countries">All Countries</option>
             {allCountries.map((country) => (
               <option key={country.iso2} value={country.iso2}>
                 {country.name}
@@ -205,22 +210,21 @@ function AllPosts() {
               </tr>
             </thead>
             <tbody>
-            {filter.map((post, index) => (
-              <tr
-                key={index}
-                className={`border-b border-gray-200 hover:bg-gray-100 ${
-                  index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
-                } w-full`}
-              >
-                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  xl:w-[280px] lg:w-[23%] md:w-[23%] sm:w-[28%]">{post.name}</td>
-                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[23%] md:w-[24%] sm:w-[28%]">{post.father_name}</td>
-                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[19%] md:w-[19%] sm:w-[22%]">{post.birth_date_islamic.date} - {post.birth_date_islamic.month}</td>
-                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[19%] md:w-[19%] sm:w-[22%]">{post.wisaal_date_islamic.date} - {post.wisaal_date_islamic.month}</td>
-                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[15%] md:w-[15%] sm:w-[15%]">{post.country}</td>
-                <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[15%] md:w-[15%] sm:w-[15%]">{post.city}</td>
-              </tr>
-            ))}
-          </tbody>
+              {filter.map((post, index) => (
+                <tr
+                  key={index}
+                  className={`border-b border-gray-200 hover:bg-gray-100 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
+                    } w-full`}
+                >
+                  <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]  xl:w-[280px] lg:w-[23%] md:w-[23%] sm:w-[28%]">{post.name}</td>
+                  <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[23%] md:w-[24%] sm:w-[28%]">{post.father_name}</td>
+                  <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[19%] md:w-[19%] sm:w-[22%]">{post.birth_date_islamic.date} - {post.birth_date_islamic.month}</td>
+                  <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[19%] md:w-[19%] sm:w-[22%]">{post.wisaal_date_islamic.date} - {post.wisaal_date_islamic.month}</td>
+                  <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[15%] md:w-[15%] sm:w-[15%]">{post.country}</td>
+                  <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[15%] md:w-[15%] sm:w-[15%]">{post.city}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </div>

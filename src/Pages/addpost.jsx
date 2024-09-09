@@ -427,7 +427,7 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
             </div>
 
             {/* Submit Button */}
-            <button type="submit" disabled={loading} className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-800">
+            <button onClick={closePopup} type="submit" disabled={loading} className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-800">
               {loading ? "Submitting..." : "Submit"}
             </button>
           </form>
