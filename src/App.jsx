@@ -116,6 +116,7 @@ function App() {
   }, []);
 
 
+console.log(chosenCategory);
 
 
   return (
@@ -134,6 +135,17 @@ function App() {
           />
         ))}
       </div>
+        
+
+        <div className="flex justify-center items-center flex-wrap xl:hidden lg:hidden md:hidden mt-5 mb-5 w-full">
+              <select onChange={(event) => setChosenCategory(event.target.value)} className="border w-full h-[50px] oultine-none">
+          {
+            monthName.map((month , index) => (
+              <option value={month}> {month} </option>
+            ))
+          }
+              </select>
+        </div>
 
       {/* Days Grid Section */}
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 lg:grid-cols-4 gap-4">
