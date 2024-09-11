@@ -4,7 +4,7 @@ import "../App.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
-function AddPost({ closePopup , allCountries , allCities , date , selectedMonthName }) {
+function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName }) {
   const [imageInputs, setImageInputs] = useState([""]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -64,42 +64,42 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
   let [fatherName, setFatherName] = useState("");
   let [location, setLocation] = useState("");
   let [description, setDescription] = useState("");
-  let [selectedCountry , setSelectedCountry] = useState(allCountries[0].iso2)
-  let [cities , setCities] = useState([])
-  let [selectedCity , setSelectedCity] = useState('')
-  
-  
+  let [selectedCountry, setSelectedCountry] = useState(allCountries[0].iso2)
+  let [cities, setCities] = useState([])
+  let [selectedCity, setSelectedCity] = useState('')
+
+
 
   const apiKey = "d3lHSzlwMm5oWlhiZ3RuM1hkTWZzbm1SNWRzMTdEV3k4d085R2YzUw==";
 
 
   useEffect(() => {
-    
+
     if (selectedCountry) {
       setSelectedCountry(selectedCountry)
       setCities([])
       const fetchCities = async () => {
         const headers = { "X-CSCAPI-KEY": apiKey };
-        
-      try {
-        const response = await fetch(
-          `https://api.countrystatecity.in/v1/countries/${selectedCountry}/cities`,
-          { method: "GET", headers }  
-        );
-        const result = await response.json();
-       
-        
-        setCities(result);
-    
-        
-      } catch (error) {
-        console.error("Error fetching countries:", error);
-      }
-    };
-    
-    fetchCities();
-  }
-},[selectedCountry]);
+
+        try {
+          const response = await fetch(
+            `https://api.countrystatecity.in/v1/countries/${selectedCountry}/cities`,
+            { method: "GET", headers }
+          );
+          const result = await response.json();
+
+
+          setCities(result);
+
+
+        } catch (error) {
+          console.error("Error fetching countries:", error);
+        }
+      };
+
+      fetchCities();
+    }
+  }, [selectedCountry]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,31 +107,25 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
 
     if (
       !Name ||
-      !fatherName ||
-      !birthDate ||
-      !birthMonth ||
-      !Birthyear ||
       !DeathDate ||
       !DeathMonth ||
-      !Deathyear ||
-      !location ||
-      !selectedCity ||
-      imageInputs.length === 0
+      !Deathyear || 
+      !description
     ) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Please fill all fields and upload a picture!",
+        text: "Please fill mandotry fields",
       });
       return;
     }
 
-    setLoading(true); 
+    setLoading(true);
 
     try {
-    
 
-     
+
+
       const obj = {
         aaraas: [
           {
@@ -156,26 +150,26 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
         ],
       };
 
-    
 
-    
-      // const headers = {
-      //   "Content-Type": "application/json",
-      // };
 
-      // // Make the API request
-      // const response = await axios.post(
-      //   "https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/",
-      //   obj,
-      //   { headers }
-      // );
 
-   
+      const headers = {
+        "Content-Type": "application/json",
+      };
 
-  
-      // setImageInputs([""]);
+      // Make the API request
+      const response = await axios.post(
+        "https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/",
+        obj,
+        { headers }
+      );
 
-    
+
+
+
+      setImageInputs([""]);
+
+
       Swal.fire({
         title: "Good job!",
         text: "The Urus Has Been Added",
@@ -195,7 +189,7 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
       });
       closePopup()
     } finally {
-      setLoading(false); // Hide loading state
+      setLoading(false);
     }
   };
 
@@ -242,7 +236,6 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
                 placeholder="Enter Father Name"
                 value={fatherName}
                 onChange={(event) => setFatherName(event.target.value)}
-                required
                 className="w-full p-2 border border-gray-300 rounded"
               />
             </div>
@@ -256,7 +249,6 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
                   placeholder="Enter Image URL"
                   value={input}
                   onChange={(e) => handleImageInputChange(index, e)}
-                  required
                   className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
@@ -276,7 +268,6 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
                 placeholder="Enter Location"
                 value={location}
                 onChange={(event) => setLocation(event.target.value)}
-                required
                 className="w-full p-2 border border-gray-300 rounded"
               />
             </div>
@@ -285,7 +276,6 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
             <div className="flex flex-wrap gap-4 mb-4">
               <label className="block font-medium mb-2">Birth Date</label>
               <select
-                required
                 value={birthDate}
                 onChange={(event) => setBirthDate(event.target.value)}
                 className="w-full p-2 border border-gray-300 rounded"
@@ -303,7 +293,6 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
 
 
               <select
-                required
                 value={birthMonth}
                 onChange={(event) => setBirthMonth(event.target.value)}
                 className="w-full p-2 border border-gray-300 rounded"
@@ -322,7 +311,6 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
               <input
                 type="number"
                 placeholder="Enter Birth Year"
-                required
                 value={Birthyear}
                 onChange={(event) => setBirthYear(event.target.value)}
                 className="w-full p-2 border border-gray-300 rounded"
@@ -382,18 +370,18 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
             {/* Country, State, and City Selectors */}
             <div className="mb-4">
               <label className="block font-medium mb-2">Select Country</label>
-              <select className="w-full p-2 border border-gray-300 rounded" 
-              onChange={(event) => setSelectedCountry(event.target.value)}
-              value={selectedCountry}
+              <select className="w-full p-2 border border-gray-300 rounded"
+                onChange={(event) => setSelectedCountry(event.target.value)}
+                value={selectedCountry}
               >
                 <option value="" disabled>
                   Select A Country
                 </option>
-                  {
-                    allCountries.map((country , index) => (
-                        <option value={country.iso2} key={index}> {country.name} </option>
-                    ))
-                  }
+                {
+                  allCountries.map((country, index) => (
+                    <option value={country.iso2} key={index}> {country.name} </option>
+                  ))
+                }
               </select>
             </div>
 
@@ -405,11 +393,11 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
                 <option value="" disabled>
                   Select City
                 </option>
-                  {
-                    cities.length > 0 ? cities.map((city , index) => (
-                        <option value={city.name} key={index}> {city.name} </option>
-                    )) : ''
-                  }
+                {
+                  cities.length > 0 ? cities.map((city, index) => (
+                    <option value={city.name} key={index}> {city.name} </option>
+                  )) : ''
+                }
               </select>
             </div>
 
@@ -426,7 +414,7 @@ function AddPost({ closePopup , allCountries , allCities , date , selectedMonthN
             </div>
 
             {/* Submit Button */}
-            <button  type="submit" disabled={loading} className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-800">
+            <button type="submit" disabled={loading} className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-800">
               {loading ? "Submitting..." : "Submit"}
             </button>
           </form>

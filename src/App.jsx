@@ -124,7 +124,7 @@ function App() {
       <Header  path={'/allposts'} text='View Aaaras'/>
     <div className="bg-gray-100 p-4">
       {/* Month Selection Section */}
-      <div className="flex justify-center items-center flex-wrap rounded-xl shadow-lg mb-5">
+      <div className="lg:flex md:flex xl:flex justify-center items-center flex-wrap rounded-xl shadow-lg mb-5 hidden">
         {monthName.map((month, index) => (
           <Chips
             key={index}
