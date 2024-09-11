@@ -125,7 +125,7 @@ console.log(chosenCategory);
       <Header  path={'/allposts'} text='View Aaaras'/>
     <div className="bg-gray-100 p-4">
       {/* Month Selection Section */}
-      <div className="lg:flex md:flex xl:flex justify-center items-center flex-wrap rounded-xl shadow-lg mb-5 hidden">
+      <div className="lg:flex xl:flex justify-center items-center flex-wrap rounded-xl shadow-lg mb-5 hidden">
         {monthName.map((month, index) => (
           <Chips
             key={index}
@@ -137,7 +137,7 @@ console.log(chosenCategory);
       </div>
         
 
-        <div className="flex justify-center items-center flex-wrap xl:hidden lg:hidden md:hidden mt-5 mb-5 w-full">
+        <div className="flex justify-center items-center flex-wrap xl:hidden lg:hidden mt-5 mb-5 w-full">
               <select onChange={(event) => setChosenCategory(event.target.value)} className="border w-full h-[50px] oultine-none">
           {
             monthName.map((month , index) => (
