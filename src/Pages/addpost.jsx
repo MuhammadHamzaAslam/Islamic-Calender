@@ -4,12 +4,17 @@ import "../App.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
-function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName }) {
+function AddPost({
+  closePopup,
+  allCountries,
+  allCities,
+  date,
+  selectedMonthName,
+}) {
   const [imageInputs, setImageInputs] = useState([""]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { month, index } = useParams();
-
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -64,20 +69,16 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
   let [fatherName, setFatherName] = useState("");
   let [location, setLocation] = useState("");
   let [description, setDescription] = useState("");
-  let [selectedCountry, setSelectedCountry] = useState(allCountries[0].iso2)
-  let [cities, setCities] = useState([])
-  let [selectedCity, setSelectedCity] = useState('')
-
-
+  let [selectedCountry, setSelectedCountry] = useState(allCountries[0].iso2);
+  let [cities, setCities] = useState([]);
+  let [selectedCity, setSelectedCity] = useState("");
 
   const apiKey = "d3lHSzlwMm5oWlhiZ3RuM1hkTWZzbm1SNWRzMTdEV3k4d085R2YzUw==";
 
-
   useEffect(() => {
-
     if (selectedCountry) {
-      setSelectedCountry(selectedCountry)
-      setCities([])
+      setSelectedCountry(selectedCountry);
+      setCities([]);
       const fetchCities = async () => {
         const headers = { "X-CSCAPI-KEY": apiKey };
 
@@ -88,10 +89,7 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
           );
           const result = await response.json();
 
-
           setCities(result);
-
-
         } catch (error) {
           console.error("Error fetching countries:", error);
         }
@@ -104,14 +102,7 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    if (
-      !Name ||
-      !DeathDate ||
-      !DeathMonth ||
-      !Deathyear || 
-      !description
-    ) {
+    if (!Name || !DeathDate || !DeathMonth || !Deathyear || !description) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -123,9 +114,6 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
     setLoading(true);
 
     try {
-
-
-
       const obj = {
         aaraas: [
           {
@@ -150,34 +138,27 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
         ],
       };
 
-
-
+      console.log("obj==>", obj);
 
       const headers = {
         "Content-Type": "application/json",
       };
 
       // Make the API request
-      const response = await axios.post(
-        "https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/",
-        obj,
-        { headers }
-      );
-
-
-
-
-      setImageInputs([""]);
-
-
-      Swal.fire({
-        title: "Good job!",
-        text: "The Urus Has Been Added",
-        icon: "success",
-      });
-
-      navigate("/");
-      closePopup()
+      const response = await axios
+        .post("https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/", obj, {
+          headers,
+        })
+        .then((data) => {
+          setImageInputs([""]);
+          Swal.fire({
+            title: "Good job!",
+            text: "The Urus Has Been Added",
+            icon: "success",
+          });
+          navigate("/");
+          closePopup();
+        });
     } catch (error) {
       console.error("Error:", error.response?.data || error.message);
 
@@ -187,19 +168,13 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
         title: "Oops...",
         text: error.response?.data?.msg || "Failed To Add Urus!",
       });
-      closePopup()
+      closePopup();
     } finally {
       setLoading(false);
     }
   };
 
-
-
-
-
-
   return (
-
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-[900px] overflow-y-auto max-h-[90vh]">
         <div className="flex justify-end items-center">
@@ -215,7 +190,9 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
           <form onSubmit={handleSubmit}>
             {/* Name Input */}
             <div className="mb-4">
-              <label htmlFor="name" className="block font-medium mb-2">Name</label>
+              <label htmlFor="name" className="block font-medium mb-2">
+                Name
+              </label>
               <input
                 type="text"
                 id="name"
@@ -229,7 +206,9 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
 
             {/* Father Name Input */}
             <div className="mb-4">
-              <label htmlFor="fatherName" className="block font-medium mb-2">Father Name</label>
+              <label htmlFor="fatherName" className="block font-medium mb-2">
+                Father Name
+              </label>
               <input
                 type="text"
                 id="fatherName"
@@ -255,13 +234,19 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
             ))}
 
             {/* Add More Images Button */}
-            <button type="button" onClick={addInput} className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            <button
+              type="button"
+              onClick={addInput}
+              className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
               Add More Images
             </button>
 
             {/* Location Input */}
             <div className="mb-4">
-              <label htmlFor="location" className="block font-medium mb-2 mt-7">Location</label>
+              <label htmlFor="location" className="block font-medium mb-2 mt-7">
+                Location
+              </label>
               <input
                 type="url"
                 id="location"
@@ -290,8 +275,6 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
                 ))}
               </select>
 
-
-
               <select
                 value={birthMonth}
                 onChange={(event) => setBirthMonth(event.target.value)}
@@ -306,7 +289,6 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
                   </option>
                 ))}
               </select>
-
 
               <input
                 type="number"
@@ -336,8 +318,6 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
                 ))}
               </select>
 
-
-
               <select
                 required
                 value={DeathMonth}
@@ -354,8 +334,6 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
                 ))}
               </select>
 
-
-
               <input
                 type="number"
                 placeholder="Enter Death Year"
@@ -364,46 +342,55 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
                 onChange={(event) => setDeathYear(event.target.value)}
                 className="w-full p-2 border border-gray-300 rounded"
               />
-
             </div>
 
             {/* Country, State, and City Selectors */}
             <div className="mb-4">
               <label className="block font-medium mb-2">Select Country</label>
-              <select className="w-full p-2 border border-gray-300 rounded"
+              <select
+                className="w-full p-2 border border-gray-300 rounded"
                 onChange={(event) => setSelectedCountry(event.target.value)}
                 value={selectedCountry}
               >
                 <option value="" disabled>
                   Select A Country
                 </option>
-                {
-                  allCountries.map((country, index) => (
-                    <option value={country.iso2} key={index}> {country.name} </option>
-                  ))
-                }
+                {allCountries.map((country, index) => (
+                  <option value={country.iso2} key={index}>
+                    {" "}
+                    {country.name}{" "}
+                  </option>
+                ))}
               </select>
             </div>
 
-
-
             <div className="mb-4">
               <label className="block font-medium mb-2">Select City</label>
-              <select required className="w-full p-2 border border-gray-300 rounded" value={selectedCity} onChange={(event) => setSelectedCity(event.target.value)}>
+              <select
+                required
+                className="w-full p-2 border border-gray-300 rounded"
+                value={selectedCity}
+                onChange={(event) => setSelectedCity(event.target.value)}
+              >
                 <option value="" disabled>
                   Select City
                 </option>
-                {
-                  cities.length > 0 ? cities.map((city, index) => (
-                    <option value={city.name} key={index}> {city.name} </option>
-                  )) : ''
-                }
+                {cities.length > 0
+                  ? cities.map((city, index) => (
+                      <option value={city.name} key={index}>
+                        {" "}
+                        {city.name}{" "}
+                      </option>
+                    ))
+                  : ""}
               </select>
             </div>
 
             {/* Description Input */}
             <div className="mb-4">
-              <label htmlFor="description" className="block font-medium mb-2">Description</label>
+              <label htmlFor="description" className="block font-medium mb-2">
+                Description
+              </label>
               <textarea
                 id="description"
                 value={description}
@@ -414,18 +401,17 @@ function AddPost({ closePopup, allCountries, allCities, date, selectedMonthName 
             </div>
 
             {/* Submit Button */}
-            <button type="submit" disabled={loading} className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-800">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-800"
+            >
               {loading ? "Submitting..." : "Submit"}
             </button>
           </form>
         </section>
       </div>
     </div>
-
-
-
-
-
 
     // <div>
     //   <section id="mainSection" className="m-auto">
