@@ -96,7 +96,7 @@ function AllPosts() {
 
   useEffect(() => {
     let fetchData = () => {
-      fetch("https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/")
+      fetch("https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/?page=1&limit=100")
         .then((response) => response.json())
         .then((data) => SetPosts(data.data.aaraasList))
     }

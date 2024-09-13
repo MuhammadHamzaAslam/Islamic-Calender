@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "../App.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Select } from "antd";
 
 function AddPost({
   closePopup,
@@ -347,43 +348,46 @@ function AddPost({
             {/* Country, State, and City Selectors */}
             <div className="mb-4">
               <label className="block font-medium mb-2">Select Country</label>
-              <select
-                className="w-full p-2 border border-gray-300 rounded"
-                onChange={(event) => setSelectedCountry(event.target.value)}
-                value={selectedCountry}
-              >
-                <option value="" disabled>
-                  Select A Country
-                </option>
-                {allCountries.map((country, index) => (
-                  <option value={country.iso2} key={index}>
-                    {" "}
-                    {country.name}{" "}
-                  </option>
-                ))}
-              </select>
+              <Select
+                showSearch
+                style={{
+                  width: 200,
+                }}
+                placeholder="Search to Select Country"
+                optionFilterProp="label"
+                onChange={(value) => setSelectedCountry(value)} // No need for event.target.value
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? "")
+                    .toLowerCase()
+                    .localeCompare((optionB?.label ?? "").toLowerCase())
+                }
+                options={allCountries.map((country) => ({
+                  value: country.iso2,
+                  label: country.name,
+                }))}
+              />
             </div>
 
             <div className="mb-4">
               <label className="block font-medium mb-2">Select City</label>
-              <select
-                required
-                className="w-full p-2 border border-gray-300 rounded"
-                value={selectedCity}
-                onChange={(event) => setSelectedCity(event.target.value)}
-              >
-                <option value="" disabled>
-                  Select City
-                </option>
-                {cities.length > 0
-                  ? cities.map((city, index) => (
-                      <option value={city.name} key={index}>
-                        {" "}
-                        {city.name}{" "}
-                      </option>
-                    ))
-                  : ""}
-              </select>
+              <Select
+                showSearch
+                style={{
+                  width: 200,
+                }}
+                placeholder="Search to Select City"
+                optionFilterProp="label"
+                onChange={(value) => setSelectedCity(value)} // No need for event.target.value
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? "")
+                    .toLowerCase()
+                    .localeCompare((optionB?.label ?? "").toLowerCase())
+                }
+                options={cities.map((city) => ({
+                  value: city.name,
+                  label: city.name,
+                }))}
+              />
             </div>
 
             {/* Description Input */}
