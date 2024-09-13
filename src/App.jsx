@@ -45,7 +45,7 @@ function App() {
 
   useEffect(() => {
     let fetchData = () => {
-      fetch("https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/")
+      fetch("https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/?page=1&limit=100")
         .then((response) => response.json())
         .then((data) => setPosts(data.data.aaraasList))
         .catch((e) => console.error(e));
