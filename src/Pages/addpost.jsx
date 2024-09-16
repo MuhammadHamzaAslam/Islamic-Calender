@@ -152,7 +152,7 @@ function AddPost({
             },
             mazaar_location_url: location,
             country: selectedCountry,
-            city: selectedCity,
+            city: selectedCity.join(''),
             images: imageInputs,
           },
         ],
@@ -465,6 +465,7 @@ function AddPost({
             <div className="mb-4">
               <label className="block font-medium mb-2">Select City</label>
               <Select
+                mode="tags"
                 showSearch
                 style={{
                   width: 200,
