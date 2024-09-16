@@ -2,6 +2,7 @@ import React from "react";
 import Chips from "../Components/chips";
 import { useState, useEffect } from "react";
 import Header from "../Components/Header";
+import AddPost from "./addpost";
 function AllPosts() {
 
   const [chosenCategory, setChosenCategory] = useState("Muharram");
@@ -118,9 +119,26 @@ function AllPosts() {
     return matchesMonth && matchesCountry;
   });
 
+  const [popupIndex, setPopupIndex] = useState(null);
+
+  const [openPopUp, setOpenPopUp] = useState(false); // Popup state
+  const togglePopup = (index = null) => {
+    setPopupIndex(index);
+    setOpenPopUp((prev) => !prev);
+  };
 
 
 
+  let [editPost , setEditPost] = useState([])
+  let editApi = (post) => {
+    setEditPost(post)
+    togglePopup()
+    
+      
+  }
+
+
+console.log(editPost._id);
 
 
 
@@ -187,7 +205,31 @@ function AllPosts() {
         </div>
       </div>
 
-
+      {openPopUp && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full overflow-y-auto max-h-[90vh]">
+              <AddPost
+                closePopup={togglePopup}
+                name={editPost.name}
+                father_Name={editPost.father_name}
+                images={editPost.images}
+                locations={editPost.mazaar_location_url}
+                EditbirthDate={editPost.birth_date_islamic.date}
+                EditdeathDate={editPost.wisaal_date_islamic.date}
+                EditbirthMonth={editPost.birth_date_islamic.month}
+                EditDeathMonth={editPost.wisaal_date_islamic.month}
+                EditbirthYear={editPost.birth_date_islamic.year}
+                EditDeathYear={editPost.wisaal_date_islamic.year}
+                editCountry={editPost.country}
+                editCity={editPost.city}
+                allCountries={allCountries}
+                allCities={allCities}
+                editDescription={editPost.description}
+                id={editPost._id}
+              />
+            </div>
+          </div>
+        )}
 
 
       <div className="p-4">
@@ -201,6 +243,7 @@ function AllPosts() {
                 <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]">Date Of Wissal</th>
                 <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]">Country</th>
                 <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]">City</th>
+                <th className="py-3 px-4 text-left xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px]">Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -216,6 +259,7 @@ function AllPosts() {
                   <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[19%] md:w-[19%] sm:w-[22%]">{post.wisaal_date_islamic.date} - {post.wisaal_date_islamic.month}</td>
                   <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[15%] md:w-[15%] sm:w-[15%]">{post.country}</td>
                   <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[15%] md:w-[15%] sm:w-[15%]">{post.city}</td>
+                  <td className="py-3 px-4 xl:text-[18px] lg:text-[18px] md:text-[11px] sm:text-[10px] text-[9px] w-full xl:w-[280px] lg:w-[15%] md:w-[15%] sm:w-[15%]"><button className="border border-blue-500" value={post} onClick={() => editApi(post)}>Edit</button></td>
                 </tr>
               ))}
             </tbody>
