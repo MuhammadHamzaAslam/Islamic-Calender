@@ -24,9 +24,8 @@ function AddPost({
   editCity,
   editCountry,
   editDescription,
-  id
+  id,
 }) {
-
   console.log(images, "yae images arhae ha");
 
   const [imageInputs, setImageInputs] = useState(images || [""]);
@@ -64,7 +63,9 @@ function AddPost({
   let [birthDate, setBirthDate] = useState(EditbirthDate || "");
   let [DeathDate, setDeathDate] = useState(EditdeathDate || date);
   let [birthMonth, setBirthMonth] = useState(EditbirthMonth || "");
-  let [DeathMonth, setDeathMonth] = useState(EditDeathMonth || selectedMonthName);
+  let [DeathMonth, setDeathMonth] = useState(
+    EditDeathMonth || selectedMonthName
+  );
   let [Deathyear, setDeathYear] = useState(EditDeathYear || "");
   let [Birthyear, setBirthYear] = useState(EditbirthYear || "");
 
@@ -87,7 +88,9 @@ function AddPost({
   let [fatherName, setFatherName] = useState(father_Name || "");
   let [location, setLocation] = useState(locations || "");
   let [description, setDescription] = useState(editDescription || "");
-  let [selectedCountry, setSelectedCountry] = useState(editCountry || allCountries[0].iso2);
+  let [selectedCountry, setSelectedCountry] = useState(
+    editCountry || allCountries[0].iso2
+  );
   let [cities, setCities] = useState([]);
   let [selectedCity, setSelectedCity] = useState(editCity || "");
 
@@ -191,11 +194,6 @@ function AddPost({
     }
   };
 
-
-
-
-
-
   const handleEdit = async (e) => {
     e.preventDefault();
     if (!Name || !DeathDate || !DeathMonth || !Deathyear || !description) {
@@ -211,27 +209,25 @@ function AddPost({
 
     try {
       const obj = {
-        aaraas: [
-          {
-            name: Name,
-            father_name: fatherName,
-            description: description,
-            birth_date_islamic: {
-              date: Number(birthDate),
-              month: birthMonth,
-              year: Number(Birthyear),
-            },
-            wisaal_date_islamic: {
-              date: Number(DeathDate),
-              month: DeathMonth,
-              year: Number(Deathyear),
-            },
-            mazaar_location_url: location,
-            country: selectedCountry,
-            city: selectedCity,
-            images: imageInputs,
+        aaraas: {
+          name: Name,
+          father_name: fatherName,
+          description: description,
+          birth_date_islamic: {
+            date: Number(birthDate),
+            month: birthMonth,
+            year: Number(Birthyear),
           },
-        ],
+          wisaal_date_islamic: {
+            date: Number(DeathDate),
+            month: DeathMonth,
+            year: Number(Deathyear),
+          },
+          mazaar_location_url: location,
+          country: selectedCountry,
+          city: selectedCity,
+          images: imageInputs,
+        },
       };
 
       console.log("edit obj==>", obj);
@@ -240,12 +236,21 @@ function AddPost({
         "Content-Type": "application/json",
       };
 
-      const response = await axios.put(`https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/66deee3e5416df001e81a559`, obj, {headers,})
+      console.log(
+        "66deee3e5416df001e81a559=>",
+        `https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/${id}`
+      );
+      const response = await axios
+        .put(
+          `https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/${id}`,
+          obj,
+          { headers }
+        )
         .then((data) => {
           setImageInputs([""]);
           Swal.fire({
             title: "Good job!",
-            text: "The Urus Has Been Added",
+            text: "The Urus Has Been Edited",
             icon: "success",
           });
           navigate("/");
@@ -514,8 +519,6 @@ function AddPost({
         </section>
       </div>
     </div>
-
-
   );
 }
 
