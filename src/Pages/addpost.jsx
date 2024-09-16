@@ -152,7 +152,10 @@ function AddPost({
             },
             mazaar_location_url: location,
             country: selectedCountry,
-            city: selectedCity.join(''),
+            city:
+              selectedCity && selectedCity?.length
+                ? selectedCity?.join("")
+                : "",
             images: imageInputs,
           },
         ],
