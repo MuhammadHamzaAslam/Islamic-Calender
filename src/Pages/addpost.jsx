@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../App.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Select } from "antd";
+import { PostsContext } from "../context/AaraasContext";
 
 function AddPost({
   closePopup,
@@ -26,27 +27,14 @@ function AddPost({
   editDescription,
   id,
 }) {
-  console.log(images, "yae images arhae ha");
 
   const [imageInputs, setImageInputs] = useState(images || [""]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { month, index } = useParams();
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [id]: value,
-    }));
-  };
 
-  const handlePictureChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      picture: e.target.files[0],
-    }));
-  };
+
 
   const addInput = () => {
     setImageInputs([...imageInputs, ""]);

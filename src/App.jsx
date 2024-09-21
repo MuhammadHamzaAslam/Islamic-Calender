@@ -1,108 +1,30 @@
-import { useState, useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { PostsContext } from "./context/AaraasContext";
 import Chips from "./Components/chips";
 import AddPost from "./Pages/addpost";
 import DisplayPosts from "./Components/displayComponents";
-import { useParams } from "react-router-dom";
 import Header from "./Components/Header";
 
 function App() {
-  const [monthName, setMonthName] = useState([
-    "Muharram",
-    "Safar",
-    "Rabi al-Awwal",
-    "Rabi al-Thani",
-    "Jumada al-Awwal",
-    "Jumada al-Thani",
-    "Rajab",
-    "Sha’ban",
-    "Ramadan",
-    "Shawwal",
-    "Dhu al-Qi’dah",
-    "Dhu al-Hijjah",
-  ]);
-
-  const [popupIndex, setPopupIndex] = useState(null);
-  const [chosenCategory, setChosenCategory] = useState("Muharram");
-  const [posts, setPosts] = useState([]);
-  const [openPopUp, setOpenPopUp] = useState(false); // Popup state
+  // Access the context values
+  const {
+    chosenCategory,
+    setChosenCategory,
+    monthName,
+    posts,
+    openPopUp,
+    togglePopup,
+    allCountries,
+    allCities,
+    popupIndex,
+    stats,
+    fetchData,
+  } = useContext(PostsContext); // Destructure context values
 
   useEffect(() => {
-    let fetchData = () => {
-      fetch("https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/?page=1&limit=1000")
-        .then((response) => response.json())
-        .then((data) => setPosts(data.data.aaraasList))
-        .catch((e) => console.error(e));
-    };
-
     fetchData();
-  }, []);
-
-  const togglePopup = (index = null) => {
-    setPopupIndex(index);
-    setOpenPopUp((prev) => !prev);
-  };
-
-  useEffect(() => {
-    let fetchData = () => {
-      fetch("https://sarfonahwkidunya.el.r.appspot.com/api/aaraas/?page=1&limit=1000")
-        .then((response) => response.json())
-        .then((data) => setPosts(data.data.aaraasList))
-        .catch((e) => console.error(e));
-    };
-
-    fetchData();
-  }, [openPopUp]);
-
-  const apiKey = "d3lHSzlwMm5oWlhiZ3RuM1hkTWZzbm1SNWRzMTdEV3k4d085R2YzUw==";
-  const [allCountries, setAllCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [allCities, setAllCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState("");
-
-  useEffect(() => {
-    const fetchCountries = async () => {
-      const headers = { "X-CSCAPI-KEY": apiKey };
-
-      try {
-        const response = await fetch(
-          "https://api.countrystatecity.in/v1/countries",
-          { method: "GET", headers }
-        );
-        const result = await response.json();
-        setAllCountries(result);
-        setSelectedCountry(result[0].iso2);
-      } catch (error) {
-        console.error("Error fetching countries:", error);
-      }
-    };
-
-    fetchCountries();
-  }, []);
-
-  useEffect(() => {
-    if (selectedCountry) {
-      const fetchCities = async () => {
-        const headers = { "X-CSCAPI-KEY": apiKey };
-
-        try {
-          const response = await fetch(
-            `https://api.countrystatecity.in/v1/countries/${selectedCountry}/cities`,
-            { method: "GET", headers }
-          );
-          const result = await response.json();
-          setAllCities(result);
-        } catch (error) {
-          console.error("Error fetching countries:", error);
-        }
-      };
-
-      fetchCities();
-    }
-  }, []);
-
-  console.log("posts==>", posts);
-
+  }, [togglePopup]);
   return (
     <>
       <Header path={"/allposts"} text="View Aaaras" />
@@ -128,6 +50,23 @@ function App() {
               <option value={month}> {month} </option>
             ))}
           </select>
+        </div>
+
+        <div className="flex gap-5 mb-5">
+          <div className="flex flex-grow bg-white p-3 font-medium border-2 rounded-md  justify-center items-center">
+            <h1>Total Aaaras : </h1>
+            <h1>{stats.totalDocuments}</h1>
+          </div>
+          <div className="flex flex-grow bg-white p-3 font-medium border-2 rounded-md  justify-center items-center">
+            <h1>This Month : </h1>
+            <h1>
+              {
+                posts?.filter(
+                  (post) => post.wisaal_date_islamic.month === chosenCategory
+                ).length
+              }
+            </h1>
+          </div>
         </div>
 
         {/* Days Grid Section */}
@@ -165,7 +104,10 @@ function App() {
                         post.wisaal_date_islamic.date === idx + 1
                     )
                     .map((filteredPost, index) => (
-                      <p key={index}>{filteredPost.name}</p>
+                      <div className="flex items-start justify-end my-1 pr-2 text-end">
+                        <p key={index}>{filteredPost.name}</p>
+                        <p>-{index + 1}</p>
+                      </div>
                     ))
                 : ""}
             </div>
